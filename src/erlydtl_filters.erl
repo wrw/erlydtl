@@ -309,7 +309,7 @@ escapejs(Input) when is_binary(Input) ->
     %    {incomplete, BGood, _BRest} -> BGood;
     %    BGood -> BGood
     %end;
-    escapejs(binary_to_list(Input));
+    list_to_binary(escapejs(binary_to_list(Input)));
 escapejs(Input) when is_list(Input) ->
     escapejs(Input, []).
 
