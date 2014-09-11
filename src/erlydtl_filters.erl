@@ -296,7 +296,19 @@ divisibleby(Input, Divisor) when is_integer(Input), is_integer(Divisor) ->
 
 %% @doc Escapes characters for use in JavaScript strings.
 escapejs(Input) when is_binary(Input) ->
-    unicode:characters_to_binary(escapejs(unicode:characters_to_list(Input)));
+    %% This is lossy, in that if the bitstring won't convert to
+    %% utf8 cleanly it will only send along the characters up until it
+    %% failed
+    InputList = case unicode:characters_to_list(Input) of
+        {error, LGood, _LRest} -> LGood;
+        {incomplete, LGood, _LRest} -> LGood;
+        LGood -> LGood
+    end,
+    case unicode:characters_to_binary(escapejs(InputList)) of
+        {error, BGood, _BRest} -> BGood;
+        {incomplete, BGood, _BRest} -> BGood;
+        BGood -> BGood
+    end;
 escapejs(Input) when is_list(Input) ->
     escapejs(Input, []).
 
