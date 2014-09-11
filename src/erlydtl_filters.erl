@@ -299,16 +299,17 @@ escapejs(Input) when is_binary(Input) ->
     %% This is lossy, in that if the bitstring won't convert to
     %% utf8 cleanly it will only send along the characters up until it
     %% failed
-    InputList = case unicode:characters_to_list(Input) of
-        {error, LGood, _LRest} -> LGood;
-        {incomplete, LGood, _LRest} -> LGood;
-        LGood -> LGood
-    end,
-    case unicode:characters_to_binary(escapejs(InputList)) of
-        {error, BGood, _BRest} -> BGood;
-        {incomplete, BGood, _BRest} -> BGood;
-        BGood -> BGood
-    end;
+    %InputList = case unicode:characters_to_list(Input) of
+    %    {error, LGood, _LRest} -> LGood;
+    %    {incomplete, LGood, _LRest} -> LGood;
+    %    LGood -> LGood
+    %end,
+    %case unicode:characters_to_binary(escapejs(InputList)) of
+    %    {error, BGood, _BRest} -> BGood;
+    %    {incomplete, BGood, _BRest} -> BGood;
+    %    BGood -> BGood
+    %end;
+    escapejs(binary_to_list(Input));
 escapejs(Input) when is_list(Input) ->
     escapejs(Input, []).
 
