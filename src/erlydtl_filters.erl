@@ -311,7 +311,9 @@ escapejs(Input) when is_binary(Input) ->
     %end;
     list_to_binary(escapejs(binary_to_list(Input)));
 escapejs(Input) when is_list(Input) ->
-    escapejs(Input, []).
+    escapejs(Input, []);
+escapejs(Input) ->
+    <<"">>.
 
 %% @doc Format the value like a human-readable file size.
 filesizeformat(Input) when is_binary(Input) ->
