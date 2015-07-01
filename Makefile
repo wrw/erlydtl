@@ -38,13 +38,11 @@ dialyze: compile
 .PHONY: plt
 plt: compile
 # we need to remove second copy of file
-#	rm -f deps/merl/priv/merl_transform.beam
 	@echo "Building PLT, may take a few minutes"
 	@dialyzer --build_plt --output_plt $(PLT_FILE) --apps \
 		$(PLT_APPS) deps/* || [ $$? -eq 2 ];
 
 clean:
-#	@echo "Clean merl..." ; $(MAKE) -C deps/merl clean
 	@$(REBAR) -C rebar-slex.config clean
 	rm -fv erl_crash.dump
 
